@@ -40,7 +40,10 @@ namespace Sockets
             // а из всех адресов выбираем первый попавшийся IPv4 адрес.
             string hostName = Dns.GetHostName();
             IPHostEntry ipHostEntry = Dns.GetHostEntry(hostName);
-            IPAddress ipV4Address = ipHostEntry.AddressList.FirstOrDefault(address => address.AddressFamily == AddressFamily.InterNetwork);
+            IPAddress ipV4Address = ipHostEntry.AddressList
+                .Where(address => address.AddressFamily == AddressFamily.InterNetwork)
+                .OrderBy(address => address.ToString())
+                .FirstOrDefault();
             if (ipV4Address == null)
             {
                 Console.WriteLine("Can't find IPv4 address for host");

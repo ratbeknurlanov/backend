@@ -134,6 +134,40 @@ net47, net471, net472: <= netstandard2.0
 
 ASP.NET Core — это metapackage
 
+***
+
+### Удобные настройки MSBuild
+
+Теперь почти все файлы внутри папки с файлом проекта
+по умолчанию добавляются в проект, причем
+- `*.cs` (и файлы других языков) добавляются с компиляцией
+- `*.resx` добавляются как ресурсы
+
+Таким образом `*.*proj` нет ничего лишнего!
+
+***
+
+### Можно донастраивать при необходимости
+
+Копирование файла в bin
+```
+<ItemGroup>
+    <None Update="image.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+</ItemGroup>
+```
+
+Можно вернуться к старому поведению
+```
+<PropertyGroup>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultItems>false</EnableDefaultItems>
+</PropertyGroup>
+```
+
+[Подробнее](https://docs.microsoft.com/ru-ru/dotnet/core/tools/csproj)
+
 
 ---
 
@@ -183,7 +217,7 @@ dotnet publish -f netcoreapp2.2 -r win10-x64 Greeting
 
 ***
 
-### Указание в проекте
+### Параметры публикации в проекте
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -196,6 +230,31 @@ dotnet publish -f netcoreapp2.2 -r win10-x64 Greeting
 
 </Project>
 ```
+
+***
+
+### Расширение с помощью tools
+
+```bash
+### Встроенные инструменты для Entity Framework
+dotnet ef -h
+
+### Установка и использование генератора кода для ASP.NET Core
+dotnet tool install --global dotnet-aspnet-codegenerator
+dotnet aspnet-codegenerator view List List -udl -outDir Views/User -m User
+dotnet aspnet-codegenerator view Details Details -udl -outDir Views/User -m User
+
+### Установка и использование поисковика NuGet-пакетов
+dotnet tool install --global dotnet-search
+dotnet search FluentAssertions
+```
+
+
+---
+
+
+## Вопросы?
+
 
 </script></section>
 
