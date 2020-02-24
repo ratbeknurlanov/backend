@@ -9,6 +9,8 @@ namespace Sockets
 {
     public class Request
     {
+        public const string HttpLineSeparator = "\r\n";
+
         public string Method;
         public string RequestUri;
         public string HttpVersion;
@@ -56,7 +58,7 @@ namespace Sockets
         private static RequestLine ParseRequestLine(string requestString, out int readCharsCount)
         {
             readCharsCount = 0;
-            int lineEnd = requestString.IndexOf("\r\n", StringComparison.InvariantCulture);
+            int lineEnd = requestString.IndexOf(HttpLineSeparator, StringComparison.InvariantCulture);
             if (lineEnd < 0)
                 return null;
 
@@ -75,7 +77,7 @@ namespace Sockets
             {
                 if (lineStart >= requestString.Length)
                     return null;
-                int lineEnd = requestString.IndexOf("\r\n", lineStart, StringComparison.InvariantCulture);
+                int lineEnd = requestString.IndexOf(HttpLineSeparator, lineStart, StringComparison.InvariantCulture);
                 if (lineEnd < 0)
                     return null;
                 if (lineStart == lineEnd)
@@ -85,16 +87,16 @@ namespace Sockets
                 string[] headerParts = headerString.Split(':');
                 headers.Add(new Header(headerParts[0].Trim(), headerParts[1].Trim()));
 
-                lineStart = lineEnd + 2;
+                lineStart = lineEnd + HttpLineSeparator.Length;
             }
 
-            readCharsCount = lineStart + 2;
+            readCharsCount = lineStart + HttpLineSeparator.Length;
             return headers;
         }
 
         private static byte[] ParseMessageBody(byte[] requestBytes, List<Header> headers, int readBytesCount)
         {
-            int? contentLength = GetContentLength(headers);
+            int? contentLength = FindContentLength(headers);
             int messageBodyLength = contentLength.HasValue ? contentLength.Value : requestBytes.Length - readBytesCount;
             if (messageBodyLength > requestBytes.Length - readBytesCount)
                 return null;
@@ -104,11 +106,11 @@ namespace Sockets
             return messageBody;
         }
 
-        private static int? GetContentLength(List<Header> headers)
+        private static int? FindContentLength(List<Header> headers)
         {
             Header contentLengthHeader = headers.FirstOrDefault(
                 h => string.Equals(h.Name, "Content-Length", StringComparison.InvariantCultureIgnoreCase));
-            return contentLengthHeader != null ? (int?) int.Parse(contentLengthHeader.Value) : null;
+            return contentLengthHeader != null ? (int?)int.Parse(contentLengthHeader.Value) : null;
         }
 
         private class RequestLine
@@ -286,7 +288,7 @@ namespace Sockets
                         "Content-Length: 15\r\n" +
                         Separator +
                         "just text body";
-            
+
             var actual = Request.StupidParse(Encoding.ASCII.GetBytes(input));
             actual.Should().BeNull();
         }

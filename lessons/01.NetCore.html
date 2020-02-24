@@ -86,7 +86,7 @@ API похожи, но все же разные:
 
 ***
 
-### Версионирование
+### Версионирование .NET
 
 Язык C# развивается и в Framework, и в Core, и в Standard
 
@@ -97,17 +97,18 @@ API похожи, но все же разные:
 
 ***
 
-**NET Standard**
+**.NET Standard**
 ```txt
 netstandard1.0, netstandard1.1, netstandard1.2,
 netstandard1.3, netstandard1.4, netstandard1.5, netstandard1.6
-netstandard2.0
+netstandard2.0, netstandard2.1
 ```
 
 **.NET Core**
 ```txt
-netcoreapp1.0, netcoreapp1.1:                <= netstandard1.6
-netcoreapp2.0, netcoreapp2.1, netcoreapp2.2: <= netstandard2.0
+netcoreapp1.x: <= netstandard1.6
+netcoreapp2.x: <= netstandard2.0
+netcoreapp3.x: <= netstandard2.1
 ```
 
 **.NET Framework**
@@ -115,16 +116,18 @@ netcoreapp2.0, netcoreapp2.1, netcoreapp2.2: <= netstandard2.0
 net45, net451, net452: <= netstandard1.2
 net46, net461, net462: <= netstandard2.0
 net47, net471, net472: <= netstandard2.0
+net48:                 <= netstandard2.0
 ```
 
-[Подробнее](https://docs.microsoft.com/ru-ru/dotnet/standard/net-standard)
+[Про версии .NET Standart](https://docs.microsoft.com/ru-ru/dotnet/standard/net-standard)
+[Про семантическое версионирование](https://semver.org/lang/ru/)
 
 ***
 
 ### Модульность by NuGet
 
 Многое, что было встроено в .NET Framework
-поставляется отдельными NuGet-пакетами
+**поставляется отдельными NuGet-пакетами**
 
 Большие фреймворки, например, ASP.NET Core,
 состоят из многих небольших пакетов
@@ -132,7 +135,7 @@ net47, net471, net472: <= netstandard2.0
 Чтобы обновлять пакеты согласованно,
 добавлено понятие **metapackage**: набор пакетов
 
-ASP.NET Core — это metapackage
+**ASP.NET Core** — это metapackage
 
 ***
 
@@ -186,7 +189,13 @@ ASP.NET Core — это metapackage
 dotnet --help
 # Узнать список шаблонов проектов
 dotnet new --help
+```
 
+***
+
+### Создание решения через CLI
+
+```bash
 # Создание решения с тестами на NUnit
 dotnet new console -n Greeting
 dotnet new sln -n Demo
@@ -196,6 +205,7 @@ dotnet sln add Tests
 dotnet add Tests reference Greeting
 dotnet restore
 dotnet build
+
 # Запуск с передачей параметров приложению
 dotnet run -p Greeting -- 5 10
 ```
@@ -209,7 +219,7 @@ dotnet run -p Greeting -- 5 10
 ### Публикация
 
 ```bash
-dotnet publish -f netcoreapp2.2 -r win10-x64 Greeting
+dotnet publish -f netcoreapp3.1 -r win10-x64 Greeting
 ```
 
 Коды доступных [фреймворков](https://docs.microsoft.com/ru-ru/dotnet/standard/frameworks)
@@ -224,7 +234,7 @@ dotnet publish -f netcoreapp2.2 -r win10-x64 Greeting
 
 <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <RuntimeIdentifiers>win10-x64;osx.10.11-x64</RuntimeIdentifiers>
 </PropertyGroup>
 

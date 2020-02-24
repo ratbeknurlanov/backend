@@ -46,7 +46,7 @@ namespace Sockets
                 .FirstOrDefault();
             if (ipV4Address == null)
             {
-                Console.WriteLine("Can't find IPv4 address for host");
+                Console.WriteLine(">>> Can't find IPv4 address for host");
                 return;
             }
             // По выбранному IP-адресу будем слушать listeningPort.
@@ -68,7 +68,9 @@ namespace Sockets
             }
             catch (Exception e)
             {
+                Console.WriteLine(">>> Got exception:");
                 Console.WriteLine(e.ToString());
+                Console.WriteLine(">>> ");
             }
         }
 
@@ -81,7 +83,7 @@ namespace Sockets
             // Начинаем слушать асинхронно, ожидая входящих соединений.
             // Вторым параметром передаем объект, который будет передан в callback.
             connectionSocket.BeginAccept(AcceptCallback, connectionSocket);
-            Console.WriteLine($"Waiting for a connection to http://{connectionSocket.LocalEndPoint}");
+            Console.WriteLine($">>> Waiting for a connection to http://{connectionSocket.LocalEndPoint}");
 
             // Поток, в котором начали слушать connectionSocket будет ждать,
             // пока кто-нибудь не установит событие connectionEstablished.
@@ -143,7 +145,7 @@ namespace Sockets
                 {
                     // Все данные были получены от клиента.
                     // Для удобства выведем их на консоль.
-                    Console.WriteLine($"Received {receivedBytes.Length} bytes from {clientSocket.RemoteEndPoint}. Data:\n" +
+                    Console.WriteLine($">>> Received {receivedBytes.Length} bytes from {clientSocket.RemoteEndPoint}. Data:\n" +
                         Encoding.ASCII.GetString(receivedBytes));
 
                     // Сформируем ответ.
@@ -177,7 +179,7 @@ namespace Sockets
 
         private static void Send(Socket clientSocket, byte[] responseBytes)
         {
-            Console.WriteLine("Sending {0} bytes to client socket.", responseBytes.Length);
+            Console.WriteLine(">>> Sending {0} bytes to client socket.", responseBytes.Length);
             // Начинаем асинхронно отправлять данные клиенту.
             clientSocket.BeginSend(responseBytes, 0, responseBytes.Length, SocketFlags.None,
                 SendCallback, clientSocket);
@@ -191,15 +193,18 @@ namespace Sockets
             {
                 // Завершаем отправку данных клиенту.
                 int bytesSent = clientSocket.EndSend(asyncResult);
-                Console.WriteLine("Sent {0} bytes to client.", bytesSent);
+                Console.WriteLine(">>> Sent {0} bytes to client.", bytesSent);
 
                 // Закрываем соединение.
                 clientSocket.Shutdown(SocketShutdown.Both);
                 clientSocket.Close();
+                Console.WriteLine(">>> ");
             }
             catch (Exception e)
             {
+                Console.WriteLine(">>> Got exception:");
                 Console.WriteLine(e.ToString());
+                Console.WriteLine(">>> ");
             }
         }
     }
