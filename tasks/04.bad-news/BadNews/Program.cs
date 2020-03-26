@@ -24,9 +24,11 @@ namespace BadNews
 
         private static void InitializeDataBase()
         {
+            const int newsArticleCount = 5000;
+
             var generator = new NewsGenerator();
             var articles = generator.GenerateNewsArticles()
-                .Take(100)
+                .Take(newsArticleCount)
                 .OrderBy(it => it.Id)
                 .ToList();
 

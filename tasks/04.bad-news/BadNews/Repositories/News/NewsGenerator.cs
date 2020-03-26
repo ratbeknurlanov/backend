@@ -99,7 +99,7 @@ namespace BadNews.Repositories.News
                 {
                     Id = Guid.Parse("5ab19137-3e28-4eca-bd19-3185ebeba0c6"),
                     Date = new DateTime(currentYear, 1, 1),
-                    Header = $"Настал Новый {currentYear} год!",
+                    Header = $"Настал Новый год!",
                     Teaser = "",
                     ContentId = "hny"
                 },
