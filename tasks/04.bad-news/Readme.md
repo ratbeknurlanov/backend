@@ -57,11 +57,11 @@ services.AddControllersWithViews();
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
-	endpoints.MapControllerRoute("status-code", "StatusCode/{code?}", new
-	{
-		controller = "Errors",
-		action = "StatusCode"
-	});
+    endpoints.MapControllerRoute("status-code", "StatusCode/{code?}", new
+    {
+        controller = "Errors",
+        action = "StatusCode"
+    });
 });
 ```
 Они подключают обработку путей с помощью MVC и конкретно в данной конфигурации написано очень четко,
@@ -180,7 +180,7 @@ else
 ConfigureWebHostDefaults(webBuilder =>
 {
     webBuilder.UseStartup<Startup>();
-	webBuilder.UseEnvironment(Microsoft.Extensions.Hosting.Environments.Development);
+    webBuilder.UseEnvironment(Microsoft.Extensions.Hosting.Environments.Development);
 })
 ```
 
@@ -225,8 +225,8 @@ Serilog может генерировать сообщения в обычном
 public static IHostBuilder CreateHostBuilder(string[] args)
 {
     return Host.CreateDefaultBuilder(args)
-	    .ConfigureWebHostDefaults(webBuilder =>
-	    {
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
             ...
         })
         .UseSerilog((hostingContext, loggerConfiguration) =>
@@ -257,8 +257,8 @@ Serilog можно конфигурировать через код, но зде
           "outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}"
         }
       }
-	],
-	"MinimumLevel": {
+    ],
+    "MinimumLevel": {
       "Default": "Information",
       "Override": {
         "Microsoft": "Warning",
@@ -585,7 +585,7 @@ if (model == null)
 @using System.Globalization
 @{
     ViewBag.Culture = CultureInfo.CreateSpecificCulture("ru-ru");
-	Layout = "_Layout";
+    Layout = "_Layout";
 }
 ```
 
