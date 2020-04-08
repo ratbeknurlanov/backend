@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.Extensions.Localization;
 
-namespace BadNews.Validaton
+namespace BadNews.Validation
 {
     public class StopWordsAttributeAdapterProvider : IValidationAttributeAdapterProvider
     {

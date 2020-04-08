@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using BadNews.Validaton;
+using BadNews.Validation;
 
 namespace BadNews.Models.Editor
 {

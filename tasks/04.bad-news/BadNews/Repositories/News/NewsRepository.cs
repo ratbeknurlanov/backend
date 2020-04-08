@@ -169,7 +169,9 @@ namespace BadNews.Repositories.News
                     int objectLine = 0;
                     var metaBuilder = new StringBuilder();
                     var dataBuilder = new StringBuilder();
-                    for (string line = fileReader.ReadLine(); line != null; line = fileReader.ReadLine())
+
+                    string line = fileReader.ReadLine();
+                    while (line != null)
                     {
                         if (line != recordSeparator)
                         {
@@ -188,7 +190,10 @@ namespace BadNews.Repositories.News
                             metaBuilder = new StringBuilder();
                             dataBuilder = new StringBuilder();
                         }
+
+                        line = fileReader.ReadLine();
                     }
+
                     if (dataBuilder.Length > 0)
                     {
                         if (onObjectRead(metaBuilder, dataBuilder))

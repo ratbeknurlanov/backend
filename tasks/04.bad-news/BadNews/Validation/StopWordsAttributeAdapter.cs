@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Localization;
 
-namespace BadNews.Validaton
+namespace BadNews.Validation
 {
     public class StopWordsAttributeAdapter : AttributeAdapterBase<StopWordsAttribute>
     {

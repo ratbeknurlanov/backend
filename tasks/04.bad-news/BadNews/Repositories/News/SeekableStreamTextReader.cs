@@ -52,7 +52,7 @@ namespace BadNews.Repositories.News
         public Stream BaseStream => stream;
         public long UsedBytes => stream.Position - byteLen + encoding.GetBytes(charBuffer, 0, charPos).Length;
 
-        public void Seek(int offset, SeekOrigin seekOrigin)
+        public void Seek(long offset, SeekOrigin seekOrigin)
         {
             stream.Seek(offset, seekOrigin);
             DiscardBufferedData();
