@@ -14,6 +14,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using BadNews.Validation;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Serilog;
 
 namespace BadNews
@@ -40,6 +42,8 @@ namespace BadNews
 
             if (env.IsDevelopment())
                 mvc.AddRazorRuntimeCompilation();
+
+            services.AddSingleton<IValidationAttributeAdapterProvider, StopWordsAttributeAdapterProvider>();
         }
 
         // В этом методе конфигурируется последовательность обработки HTTP-запроса
