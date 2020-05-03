@@ -64,7 +64,18 @@ namespace BadNews
 
             app.UseHttpsRedirection();
             app.UseResponseCompression();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = options =>
+                {
+                    options.Context.Response.GetTypedHeaders().CacheControl =
+                        new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+                        {
+                            Public = false,
+                            MaxAge = TimeSpan.FromSeconds(30)
+                        };
+                }
+            });
             app.UseSerilogRequestLogging();
             app.UseStatusCodePagesWithReExecute("/status-code/{0}");
 
