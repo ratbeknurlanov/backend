@@ -39,16 +39,19 @@ namespace BadNews
         {
             services.AddSingleton<INewsRepository, NewsRepository>();
             services.AddSingleton<INewsModelBuilder, NewsModelBuilder>();
+            services.AddSingleton<IValidationAttributeAdapterProvider, StopWordsAttributeAdapterProvider>();
             services.AddSingleton<IWeatherForecastRepository, WeatherForecastRepository>();
+            services.Configure<OpenWeatherOptions>(configuration.GetSection("OpenWeather"));
 
             var mvc = services.AddControllersWithViews();
 
             if (env.IsDevelopment())
                 mvc.AddRazorRuntimeCompilation();
 
-            services.AddSingleton<IValidationAttributeAdapterProvider, StopWordsAttributeAdapterProvider>();
-
-            services.Configure<OpenWeatherOptions>(configuration.GetSection("OpenWeather"));
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+            });
         }
 
         // В этом методе конфигурируется последовательность обработки HTTP-запроса
@@ -60,6 +63,7 @@ namespace BadNews
                 app.UseExceptionHandler("/Errors/Exception");
 
             app.UseHttpsRedirection();
+            app.UseResponseCompression();
             app.UseStaticFiles();
             app.UseSerilogRequestLogging();
             app.UseStatusCodePagesWithReExecute("/status-code/{0}");
