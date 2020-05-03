@@ -46,6 +46,8 @@ namespace BadNews
                 mvc.AddRazorRuntimeCompilation();
 
             services.AddSingleton<IValidationAttributeAdapterProvider, StopWordsAttributeAdapterProvider>();
+
+            services.Configure<OpenWeatherOptions>(configuration.GetSection("OpenWeather"));
         }
 
         // В этом методе конфигурируется последовательность обработки HTTP-запроса
