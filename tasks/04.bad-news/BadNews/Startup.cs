@@ -34,6 +34,8 @@ namespace BadNews
         {
             services.AddSingleton<INewsRepository, NewsRepository>();
             services.AddSingleton<INewsModelBuilder, NewsModelBuilder>();
+
+            services.AddControllersWithViews();
         }
 
         // В этом методе конфигурируется последовательность обработки HTTP-запроса
@@ -42,6 +44,7 @@ namespace BadNews
             app.UseDeveloperExceptionPage();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseStatusCodePagesWithReExecute("/status-code/{0}");
 
             app.Map("/news", newsApp =>
             {
@@ -58,7 +61,15 @@ namespace BadNews
                 rootPathApp.Run(RenderIndexPage);
             });
 
-            // Остальные запросы — 404 Not Found
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute("status-code", "status-code/{code?}", new
+                {
+                    controller = "Errors",
+                    action = "StatusCode"
+                });
+            });
         }
 
         // Региональные настройки, которые используются при обработке запросов новостей.
