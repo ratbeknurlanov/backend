@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using BadNews.Elevation;
 using BadNews.Repositories.Weather;
 using BadNews.Validation;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
@@ -62,6 +63,8 @@ namespace BadNews
             app.UseStaticFiles();
             app.UseSerilogRequestLogging();
             app.UseStatusCodePagesWithReExecute("/status-code/{0}");
+
+            app.UseMiddleware<ElevationMiddleware>();
 
             app.UseRouting();
             app.UseEndpoints(endpoints =>
