@@ -15,6 +15,7 @@ namespace BadNews.Components
         public IViewComponentResult Invoke()
         {
             var years = newsRepository.GetYearsWithArticles();
+
             return View(years);
         }
     }
