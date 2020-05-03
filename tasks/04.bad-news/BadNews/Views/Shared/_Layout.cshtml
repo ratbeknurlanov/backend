@@ -19,15 +19,9 @@
 
     <div class="nav-scroller py-1 mb-2"></div>
 
-    <!-- Header /-->
+    @RenderSection("Header", false)
 </div>
-
-<!-- Body -->
-
 @RenderBody()
-
-<!--/ Body -->
-
 <script src="/lib/jquery/dist/jquery.min.js"></script>
 <script src="/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
 <script src="/js/site.js"></script>
