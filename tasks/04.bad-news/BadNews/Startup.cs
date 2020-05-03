@@ -55,11 +55,6 @@ namespace BadNews
             app.UseSerilogRequestLogging();
             app.UseStatusCodePagesWithReExecute("/status-code/{0}");
 
-            app.Map("/news/fullarticle", fullArticleApp =>
-            {
-                fullArticleApp.Run(RenderFullArticlePage);
-            });
-
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
@@ -68,7 +63,7 @@ namespace BadNews
                     controller = "Errors",
                     action = "StatusCode"
                 });
-                endpoints.MapControllerRoute("default", "{controller=News}/{action=Index}");
+                endpoints.MapControllerRoute("default", "{controller=News}/{action=Index}/{id?}");
             });
         }
 
