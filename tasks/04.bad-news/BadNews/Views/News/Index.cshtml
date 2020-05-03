@@ -1,24 +1,26 @@
-﻿@using System.Web
-@model BadNews.Models.News.IndexModel;
+﻿@model BadNews.Models.News.IndexModel;
 
+@if (Model.Year is null)
+{
 @section Header {
-     <div class="row mb-2">
-         @foreach (var article in Model.FeaturedArticles)
-         {
-             <div class="col-md-6">
-                 <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                     <div class="col p-4 d-flex flex-column position-static">
-                         <h3 class="mb-0">@article.Header</h3>
-                         <div class="mb-1 text-muted">@article.Date.ToString("d MMM yyyy", ViewBag.Culture)</div>
-                         <p class="card-text mb-auto">
-                             @article.Teaser
-                         </p>
-                         <a asp-controller="News" asp-action="FullArticle" asp-route-id="@(article.Id)">Читать полностью</a>
-                     </div>
-                 </div>
-             </div>
-         }
-     </div>
+    <div class="row mb-2">
+        @foreach (var article in Model.FeaturedArticles)
+        {
+            <div class="col-md-6">
+                <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <h3 class="mb-0">@article.Header</h3>
+                        <div class="mb-1 text-muted">@article.Date.ToString("d MMM yyyy", ViewBag.Culture)</div>
+                        <p class="card-text mb-auto">
+                            @article.Teaser
+                        </p>
+                        <a asp-controller="News" asp-action="FullArticle" asp-route-id="@(article.Id)">Читать полностью</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
 }
 
 <!-- Body -->
@@ -42,22 +44,13 @@
             }
 
             <nav class="news-pagination">
-                @{
-                    var newerUrl = !Model.IsFirst
-                        ? $"/news?pageIndex={HttpUtility.UrlEncode((Model.PageIndex - 1).ToString())}"
-                        : "";
-                    var olderUrl = !Model.IsLast
-                        ? $"/news?pageIndex={HttpUtility.UrlEncode((Model.PageIndex + 1).ToString())}"
-                        : "";
-                }
-
                 @if (Model.IsFirst)
                 {
                     <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Новее</a>
                 }
                 else
                 {
-                    <a class="btn btn-outline-primary" href="@newerUrl">Новее</a>
+                    <a class="btn btn-outline-primary" asp-controller="News" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-year="@(Model.Year)">Новее</a>
                 }
 
                 @if (Model.IsLast)
@@ -66,12 +59,13 @@
                 }
                 else
                 {
-                    <a class="btn btn-outline-primary" href="@olderUrl">Старше</a>
+                    <a class="btn btn-outline-primary" asp-controller="News" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex + 1)" asp-route-year="@(Model.Year)">Старше</a>
                 }
             </nav>
         </div>
 
         <aside class="col-md-4 news-sidebar">
+            <vc:archive-links></vc:archive-links>
         </aside>
     </div>
 </main>
